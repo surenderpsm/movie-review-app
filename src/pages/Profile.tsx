@@ -39,7 +39,7 @@ const Profile = () => {
       setProfile(data);
       setTempGenres(data.preferredGenres || []);
 
-      const allReviews = await fetch(`/api/reviews/user/${data._id}`).then(res => res.json());
+      const allReviews = await fetch(`${import.meta.env.VITE_API_URL}/reviews/user/${data._id}`).then(res => res.json());
       setReviews(allReviews);
     } catch (err) {
       console.error(err);
@@ -137,7 +137,7 @@ const Profile = () => {
                   <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={() => setEditingGenres(false)}>Cancel</button>
                     <button className="btn btn-primary" onClick={async () => {
-                      await fetch('/api/user/genres', {
+                      await fetch(import.meta.env.VITE_API_URL +'/user/genres', {
                         method: 'PUT',
                         headers: {
                           'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ const Profile = () => {
                         body: JSON.stringify({ genres: tempGenres })
                       });
                       setEditingGenres(false);
-                      load(); // refresh profile
+                      await load(); // refresh profile
                     }}>
                       Save Changes
                     </button>

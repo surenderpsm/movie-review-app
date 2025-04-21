@@ -4,7 +4,7 @@ import { getToken, setToken, removeToken } from '../utils/token';
 import { User } from '../types/User';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 export const login = async (email: string, password: string) => {
