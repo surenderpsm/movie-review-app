@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../utils/token';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL + '/reviews',
+  baseURL: import.meta.env.VITE_API_URL + 'api/reviews',
 });
 
 API.interceptors.request.use((config) => {
