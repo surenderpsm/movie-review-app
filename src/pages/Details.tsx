@@ -48,7 +48,7 @@ const Details = () => {
             <button
                 className="btn btn-outline-warning mb-3"
                 onClick={async () => {
-                  await fetch(import.meta.env.VITE_API_URL+'api/users/favorites', {
+                  await fetch(import.meta.env.VITE_API_URL+'/api/users/favorites', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
