@@ -5,15 +5,12 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   const user = getCurrentUser();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [feed, setFeed] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      getFeed().then(setFeed).finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    getFeed().then(setFeed).finally(() => setLoading(false));
   }, [user]);
   if (loading) return <p>Loading...</p>;
 
@@ -30,9 +27,13 @@ const Home = () => {
                   feed.map((r) => (
                       <div key={r._id} className="card mb-2">
                         <div className="card-body">
-                          <h6>{r.title} <small className="text-muted">by <Link to={`/profile/${r.user._id}`}>{r.user.username}</Link></small></h6>
+                          <h6>
+                            {r.title} <small className="text-muted">by <Link to={`/profile/${r.user._id}`}>{r.user.username}</Link></small>
+                          </h6>
                           <p>{r.content}</p>
-                          <p className="text-muted">⭐ {r.rating} — <Link to={`/details/${r.imdbID}`}>View Movie</Link></p>
+                          <p className="text-muted">
+                            ⭐ {r.rating} — <Link to={`/details/${r.imdbID}`}>View Movie</Link>
+                          </p>
                         </div>
                       </div>
                   ))
@@ -40,10 +41,29 @@ const Home = () => {
             </>
         ) : (
             <>
-              <h2>🎬 Welcome to MovieApp</h2>
+              <h2>🎬 Welcome to Film-connect</h2>
               <p>Discover, review, and discuss movies. Join our community!</p>
               <Link to="/register" className="btn btn-success me-2">Get Started</Link>
               <Link to="/login" className="btn btn-outline-primary">Login</Link>
+              <hr />
+              <h4>📰 All Reviews</h4>
+              {feed.length === 0 ? (
+                  <p>No reviews yet. Login to exploring movies!</p>
+              ) : (
+                  feed.map((r) => (
+                      <div key={r._id} className="card mb-2">
+                        <div className="card-body">
+                          <h6>
+                            {r.title} <small className="text-muted">by <Link to={`/profile/${r.user._id}`}>{r.user.username}</Link></small>
+                          </h6>
+                          <p>{r.content}</p>
+                          <p className="text-muted">
+                            ⭐ {r.rating} — <Link to={`/details/${r.imdbID}`}>View Movie</Link>
+                          </p>
+                        </div>
+                      </div>
+                  ))
+              )}
             </>
         )}
       </div>

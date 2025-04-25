@@ -32,10 +32,16 @@ export const unfollowUser = async (id: string) => {
 };
 
 export const getFeed = async () => {
-  const res = await API.get('/feed');
+  let url = '/feed/all'; // Default to the all reviews endpoint for anonymous users
+
+  const token = getToken();
+  if (token) {
+    url = '/feed'; // If there's a token, use the authenticated user's feed
+  }
+
+  const res = await API.get(url);
   return res.data;
 };
-
 export const searchUsers = async (query: string) => {
   const res = await API.get(`/search?q=${encodeURIComponent(query)}`);
   return res.data;
