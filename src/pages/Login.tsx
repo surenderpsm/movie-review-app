@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/authService';
+import {getCurrentUser, login} from '../services/authService';
+import { useAuth } from '../context/AuthContext';
+
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,7 +18,9 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(form.email, form.password);
+      setUser(getCurrentUser()); // 👈 this updates the navbar instantly
       navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed');
     }

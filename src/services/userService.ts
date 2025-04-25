@@ -35,3 +35,8 @@ export const getFeed = async () => {
   const res = await API.get('/feed');
   return res.data;
 };
+
+export const searchUsers = async (query: string) => {
+  const res = await API.get(`/search?q=${encodeURIComponent(query)}`);
+  return res.data;
+};
